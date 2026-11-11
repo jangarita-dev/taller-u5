@@ -33,10 +33,11 @@ public static class CalculoTotales
     }
 
     /// <summary>
-    /// «Redondeo al peso» del legado: Trunc(valor + 0.49) (UCalculoTotales.pas:48).
-    /// Ojo: no es un redondeo correcto (defecto R05, se corrige en la etapa 3).
+    /// Redondeo al peso: la mitad sube (UCalculoTotales.pas:48).
+    /// R05 corregido: el legado hacía Trunc(valor + 0.49), que bajaba las fracciones en [0.50, 0.51).
+    /// Ver docs/migracion/defectos-corregidos.md.
     /// </summary>
-    internal static decimal Calc3(decimal valor) => Math.Truncate(valor + 0.49m);
+    internal static decimal Calc3(decimal valor) => Math.Round(valor, 0, MidpointRounding.AwayFromZero);
 
     /// <summary>Suma cantidad × precio de todas las líneas (UCalculoTotales.pas:53).</summary>
     internal static decimal CalcularSubtotal(IReadOnlyList<LineaCalculo> lineas) =>
